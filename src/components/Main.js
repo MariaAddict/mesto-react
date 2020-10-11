@@ -7,17 +7,34 @@ function Main(props) {
     const [userName, setuserName] = React.useState('');
     const [userDescription, setUserDescription] = React.useState('');
     const [userAvatar, setUserAvatar] = React.useState('');
+    const [cards, setCards] = React.useState([]);
 
     React.useEffect(() => {
-
-
         api.getUserInfo().then(dataUser => {
             setuserName(dataUser.name);
             setUserDescription(dataUser.about);
             setUserAvatar(dataUser.avatar);
         }).catch(err => {
             console.log(err);
-        });;
+        });
+    }, []);
+
+    React.useEffect(() => {
+        api.getInitialCards().then(data => {
+            console.log(data);
+            const items = data.map((item) => ({
+                srcImage: item.link,
+                title: item.name,
+                likes: item.likes,
+                idCard: item._id,
+                idOwner: item.owner._id
+            }));
+            // console.log('cards: ', items);
+            setCards(items);
+
+        }).catch(err => {
+            console.log(err);
+        });
     }, []);
 
     return (
@@ -36,6 +53,21 @@ function Main(props) {
 
             <section>
                 <ul className="cards">
+                    {cards.map((card) => 
+                        (
+                            <li className="cards__item" key={card.idCard}>
+                                <img src={card.srcImage} alt={card.title} className="cards__image" />
+                                <div className="cards__description">
+                                    <h3 className="cards__title">{card.title}</h3>
+                                    <div className="cards__likes">
+                                        <button type="button" className="cards__like"></button>
+                                        <p className="cards__number-of-likes">{card.likes.length}</p>
+                                    </div>
+                                </div>
+                                <button type="button" className="cards__delete"></button>
+                            </li>
+                        )
+                    )}
                 </ul>
             </section>
         </main>

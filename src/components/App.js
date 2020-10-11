@@ -114,7 +114,7 @@ function App() {
                 <button type="button" className="modal__close-button"></button>
             </div>
         </div> */}
-        <template className="card-template">
+        {/* <template className="card-template">
             <li className="cards__item">
                 <img src="#" alt="" className="cards__image"/>
                 <div className="cards__description">
@@ -126,7 +126,7 @@ function App() {
                 </div>
                 <button type="button" className="cards__delete"></button>
             </li>
-        </template>
+        </template> */}
     </div>
     </div>
   );
