@@ -5,9 +5,9 @@ function Card(props) {
         props.onCardClick(props.card);
     }
 
-    return(
+    return (
         <li className="cards__item">
-            <img src={props.card.srcImage} alt={props.card.title} className="cards__image" onClick = {handleClick} />
+            <img src={props.card.srcImage} alt={props.card.title} className="cards__image" onClick={handleClick} />
             <div className="cards__description">
                 <h3 className="cards__title">{props.card.title}</h3>
                 <div className="cards__likes">

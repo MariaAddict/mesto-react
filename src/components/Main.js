@@ -23,12 +23,14 @@ function Main(props) {
     React.useEffect(() => {
         api.getInitialCards().then(data => {
             const items = data.map((item) => ({
-                card: 
-                   {srcImage: item.link,
+                card:
+                {
+                    srcImage: item.link,
                     title: item.name,
                     likes: item.likes,
                     idCard: item._id,
-                    idOwner: item.owner._id}
+                    idOwner: item.owner._id
+                }
             }));
             setCards(items);
         }).catch(err => {
@@ -52,8 +54,8 @@ function Main(props) {
 
             <section>
                 <ul className="cards">
-                    {cards.map((card) => 
-                    <Card key={card.card.idCard} {...card} onCardClick={props.onCardClick}/>
+                    {cards.map((card) =>
+                        <Card key={card.card.idCard} {...card} onCardClick={props.onCardClick} />
                     )}
                 </ul>
             </section>
