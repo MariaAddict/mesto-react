@@ -2,7 +2,7 @@ import React from 'react';
 import api from '../utils/api';
 import Card from './Card';
 
-//userName, userDescription , userAvatar
+
 function Main(props) {
 
     const [userName, setuserName] = React.useState('');
@@ -28,8 +28,7 @@ function Main(props) {
                     title: item.name,
                     likes: item.likes,
                     idCard: item._id,
-                    idOwner: item.owner._id},
-                onCardClick: props.onCardClick
+                    idOwner: item.owner._id}
             }));
             setCards(items);
         }).catch(err => {
@@ -54,7 +53,7 @@ function Main(props) {
             <section>
                 <ul className="cards">
                     {cards.map((card) => 
-                    <Card key={card.card.idCard} {...card}/>
+                    <Card key={card.card.idCard} {...card} onCardClick={props.onCardClick}/>
                     )}
                 </ul>
             </section>

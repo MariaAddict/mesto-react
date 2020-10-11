@@ -61,31 +61,12 @@ function App() {
                     <span className="modal__error modal__error_visible" id="url-error"></span>
                     <button type="submit" className="modal__save-button"><span className="modal__name-button">Сохранить</span></button>
                 </PopupWithForm>
-                {/* <PopupWithForm name = 'check' title = 'Вы уверены?' isOpen = {isEditAvatarPopupOpen}>
-                <input type="url" name="link" className="modal__item modal__item_type_url-image" placeholder="Ссылка на картинку" id="url" autocomplete="off" required/>
-                <span className="modal__error modal__error_visible" id="url-error"></span>
-                <button type="submit" className="modal__save-button"><span className="modal__name-button">Сохранить</span></button>
-          </PopupWithForm> */}
+                {/* <PopupWithForm name='check' title='Вы уверены?' isOpen={isEditAvatarPopupOpen}>
+                    <input type="url" name="link" className="modal__item modal__item_type_url-image" placeholder="Ссылка на картинку" id="url" autocomplete="off" required />
+                    <span className="modal__error modal__error_visible" id="url-error"></span>
+                    <button type="submit" className="modal__save-button"><span className="modal__name-button">Сохранить</span></button>
+                </PopupWithForm> */}
                 <ImagePopup {...selectedCard} onClose={closeAllPopups} />
-                {/* {<div className="modal modal_type_figure">
-            <div className="modal__container modal__container_type_image">
-                <figure className="modal__figure">
-                    <img src="#" alt="" className="modal__image"/>
-                    <figcaption className="modal__caption"></figcaption>
-                </figure>
-                <button type="button" className="modal__close-button"></button>
-            </div>
-        </div>} */}
-                {/* */}
-                <div className="modal modal_type_check">
-                    <div className="modal__container modal__container_type_check">
-                        <h2 className="modal__title">Вы уверены?</h2>
-                        <form action="#" name="modal-form" className="modal__form" >
-                            <button type="submit" className="modal__save-button">Да</button>
-                        </form>
-                        <button type="button" className="modal__close-button"></button>
-                    </div>
-                </div>
             </div>
         </div>
     );
