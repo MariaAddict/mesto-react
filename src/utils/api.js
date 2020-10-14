@@ -73,22 +73,9 @@ class Api {
         });
     }
 
-    addLike(cardId) {
+    Like(cardId, like) {
         return fetch(`${this._url}cards/likes/${cardId}`, {
-            method: 'PUT',
-            headers: this._headers
-        }
-        ).then(res => {
-            if (res.ok) {
-                return res.json();
-            }
-            return Promise.reject(res.status);
-        });
-    }
-
-    deleteLike(cardId) {
-        return fetch(`${this._url}cards/likes/${cardId}`, {
-            method: 'DELETE',
+            method: like ? 'PUT' : 'DELETE',
             headers: this._headers
         }
         ).then(res => {

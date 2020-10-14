@@ -11,32 +11,16 @@ function Main(props) {
     const [cards, setCards] = React.useState([]);
 
     React.useEffect(() => {
-        api.getUserInfo().then(dataUser => {
+        Promise.all([api.getUserInfo(), api.getInitialCards()]).then(([dataUser, dataCards]) => {
             setuserName(dataUser.name);
             setUserDescription(dataUser.about);
             setUserAvatar(dataUser.avatar);
+            setCards(dataCards);
         }).catch(err => {
             console.log(err);
         });
     }, []);
-
-    React.useEffect(() => {
-        api.getInitialCards().then(data => {
-            const items = data.map((item) => ({
-                card:
-                {
-                    srcImage: item.link,
-                    title: item.name,
-                    likes: item.likes,
-                    idCard: item._id,
-                    idOwner: item.owner._id
-                }
-            }));
-            setCards(items);
-        }).catch(err => {
-            console.log(err);
-        });
-    }, []);
+    
 
     return (
         <main className="content">
@@ -55,7 +39,7 @@ function Main(props) {
             <section>
                 <ul className="cards">
                     {cards.map((card) =>
-                        <Card key={card.card.idCard} {...card} onCardClick={props.onCardClick} />
+                        <Card key={card._id} {...card} onCardClick={props.onCardClick} />
                     )}
                 </ul>
             </section>

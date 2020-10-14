@@ -1,5 +1,4 @@
 import React from 'react';
-import '../index.css';
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
@@ -22,7 +21,7 @@ function App() {
         setisAddPlacePopupOpen(true);
     }
     function handleCardClick(card) {
-        setSelectedCard({ ...card, isOpen: true });
+        setSelectedCard(card);
     }
     function closeAllPopups() {
         setisAddPlacePopupOpen(false);
@@ -35,11 +34,13 @@ function App() {
         <div className="App">
             <div className="page">
                 <Header />
-                <Main  {...{
-                    onEditProfile: handleEditProfileClick, onAddPlace: handleAddPlaceClick, onEditAvatar: handleEditAvatarClick,
-                    onCardClick: handleCardClick
-                }}
+                <Main
+                    onEditProfile={handleEditProfileClick}
+                    onAddPlace={handleAddPlaceClick}
+                    onEditAvatar={handleEditAvatarClick}
+                    onCardClick={handleCardClick}
                 />
+
                 <Footer />
 
                 <PopupWithForm name='edit' title='Редактировать профиль' isOpen={isEditProfilePopupOpen} onClose={closeAllPopups}>
