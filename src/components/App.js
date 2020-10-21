@@ -2,14 +2,25 @@ import React from 'react';
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
-import PopupWithForm from './PopupWithForm'
-import ImagePopup from './ImagePopup'
+import PopupWithForm from './PopupWithForm';
+import ImagePopup from './ImagePopup';
+import api from '../utils/api';
+import {CurrentUserContext , user} from '../contexts/CurrentUserContext';
 
 function App() {
     const [isEditProfilePopupOpen, setisEditProfilePopupOpen] = React.useState(false);
     const [isAddPlacePopupOpen, setisAddPlacePopupOpen] = React.useState(false);
     const [isEditAvatarPopupOpen, setisEditAvatarPopupOpen] = React.useState(false);
     const [selectedCard, setSelectedCard] = React.useState({});
+    const [currentUser, setCurrentUser] = React.useState({});
+
+    React.useEffect(() => {
+        api.getUserInfo().then((dataUser) => {
+            setCurrentUser(dataUser);
+        }).catch(err => {
+            console.log(err);
+        });
+    }, []);
 
     function handleEditAvatarClick() {
         setisEditAvatarPopupOpen(true);
@@ -31,6 +42,7 @@ function App() {
     }
 
     return (
+        < CurrentUserContext.Provider value={currentUser}>
         <div className="App">
             <div className="page">
                 <Header />
@@ -62,14 +74,10 @@ function App() {
                     <span className="modal__error modal__error_visible" id="url-error"></span>
                     <button type="submit" className="modal__save-button"><span className="modal__name-button">Сохранить</span></button>
                 </PopupWithForm>
-                {/* <PopupWithForm name='check' title='Вы уверены?' isOpen={isEditAvatarPopupOpen}>
-                    <input type="url" name="link" className="modal__item modal__item_type_url-image" placeholder="Ссылка на картинку" id="url" autocomplete="off" required />
-                    <span className="modal__error modal__error_visible" id="url-error"></span>
-                    <button type="submit" className="modal__save-button"><span className="modal__name-button">Сохранить</span></button>
-                </PopupWithForm> */}
                 <ImagePopup {...selectedCard} onClose={closeAllPopups} />
             </div>
         </div>
+        </ CurrentUserContext.Provider >
     );
 }
 

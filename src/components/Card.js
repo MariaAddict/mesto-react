@@ -1,6 +1,11 @@
 import React from 'react';
+import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
 function Card(props) {
+    const currentUser = React.useContext(CurrentUserContext);
+    const isOwn = (props.owner._id === currentUser._id);
+    const isLiked = props.likes.some((item) => item._id === currentUser._id);
+
     function handleClick() {
         props.onCardClick(props);
     }
@@ -11,11 +16,11 @@ function Card(props) {
             <div className="cards__description">
                 <h3 className="cards__title">{props.name}</h3>
                 <div className="cards__likes">
-                    <button type="button" className="cards__like"></button>
+                    <button type="button" className={`cards__like ${isLiked ? 'card__like_pressed' : ''}`}></button>
                     <p className="cards__number-of-likes">{props.likes.length}</p>
                 </div>
             </div>
-            <button type="button" className="cards__delete"></button>
+            <button type="button" className={`cards__delete ${isOwn ? '' : 'cards__delete_hidden'}`}></button>
         </li>
     );
 }

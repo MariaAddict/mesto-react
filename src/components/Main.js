@@ -1,20 +1,17 @@
 import React from 'react';
 import api from '../utils/api';
 import Card from './Card';
+import {CurrentUserContext } from '../contexts/CurrentUserContext';
 
 
 function Main(props) {
 
-    const [userName, setuserName] = React.useState('');
-    const [userDescription, setUserDescription] = React.useState('');
-    const [userAvatar, setUserAvatar] = React.useState('');
     const [cards, setCards] = React.useState([]);
+    const userData = React.useContext(CurrentUserContext);
+    console.log('user data in Main ', userData);
 
     React.useEffect(() => {
-        Promise.all([api.getUserInfo(), api.getInitialCards()]).then(([dataUser, dataCards]) => {
-            setuserName(dataUser.name);
-            setUserDescription(dataUser.about);
-            setUserAvatar(dataUser.avatar);
+        api.getInitialCards().then((dataCards) => {
             setCards(dataCards);
         }).catch(err => {
             console.log(err);
@@ -26,12 +23,12 @@ function Main(props) {
         <main className="content">
             <section className="profile">
                 <div className="profile__overlay" onClick={props.onEditAvatar}>
-                    <img src={userAvatar} alt="Фото профиля" className="profile__image" />
+                    <img src={userData.avatar} alt="Фото профиля" className="profile__image" />
                 </div>
                 <div className="profile__info">
-                    <h1 className="profile__name">{userName}</h1>
+                    <h1 className="profile__name">{userData.name}</h1>
                     <button type="button" className="profile__info-button" onClick={props.onEditProfile} ></button>
-                    <p className="profile__activity-type">{userDescription}</p>
+                    <p className="profile__activity-type">{userData.about}</p>
                 </div>
                 <button type="button" className="profile__add-button" onClick={props.onAddPlace}></button>
             </section>
