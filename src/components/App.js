@@ -6,6 +6,7 @@ import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
 import api from '../utils/api';
 import {CurrentUserContext , user} from '../contexts/CurrentUserContext';
+import EditProfilePopup from './EditProfilePopup';
 
 function App() {
     const [isEditProfilePopupOpen, setisEditProfilePopupOpen] = React.useState(false);
@@ -55,13 +56,8 @@ function App() {
 
                 <Footer />
 
-                <PopupWithForm name='edit' title='Редактировать профиль' isOpen={isEditProfilePopupOpen} onClose={closeAllPopups}>
-                    <input type="text" name="name" className="modal__item modal__item_type_name" placeholder="Имя профиля" />
-                    <span className="modal__error modal__error_visible" id="label-error"></span>
-                    <input type="text" name="activity" className="modal__item modal__item_type_activity-type" placeholder="О себе" />
-                    <span className="modal__error modal__error_visible" id="activity-error"></span>
-                    <button type="submit" className="modal__save-button"><span className="modal__name-button">Сохранить</span></button>
-                </PopupWithForm>
+                <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} />
+                
                 <PopupWithForm name='add' title='Новое место' isOpen={isAddPlacePopupOpen} onClose={closeAllPopups}>
                     <input type="text" name="name" className="modal__item modal__item_type_header-image" placeholder="Название" id="name" />
                     <span className="modal__error modal__error_visible" id="name-error"></span>
