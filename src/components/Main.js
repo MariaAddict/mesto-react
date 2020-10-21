@@ -10,6 +10,15 @@ function Main(props) {
     const userData = React.useContext(CurrentUserContext);
     console.log('user data in Main ', userData);
 
+    function handleCardLike(card) {
+        const isLiked = card.likes.some(i => i._id === userData._id);
+    
+        api.changeLike(card._id, !isLiked).then((newCard) => {
+          const newCards = cards.map((c) => c._id === card._id ? newCard : c);
+          setCards(newCards);
+        });
+    }
+
     React.useEffect(() => {
         api.getInitialCards().then((dataCards) => {
             setCards(dataCards);
@@ -36,7 +45,7 @@ function Main(props) {
             <section>
                 <ul className="cards">
                     {cards.map((card) =>
-                        <Card key={card._id} {...card} onCardClick={props.onCardClick} />
+                        <Card key={card._id} {...card} onCardClick={props.onCardClick} onCardLike = {handleCardLike} />
                     )}
                 </ul>
             </section>
