@@ -5,8 +5,9 @@ import Footer from './Footer';
 import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
 import api from '../utils/api';
-import {CurrentUserContext , user} from '../contexts/CurrentUserContext';
+import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import EditProfilePopup from './EditProfilePopup';
+import EditAvatarPopup from './EditAvatarPopup';
 
 function App() {
     const [isEditProfilePopupOpen, setisEditProfilePopupOpen] = React.useState(false);
@@ -41,38 +42,50 @@ function App() {
         setisEditAvatarPopupOpen(false);
         setSelectedCard({});
     }
+    function handleUpdateUser(data) {
+        api.editUserInfo(data).then((res) => {
+            setCurrentUser(res);
+            setisEditProfilePopupOpen(false);
+        }).catch(err => {
+            console.log(err);
+        });
+    }
+    function handleUpdateAvatar(data) {
+        api.changeAvatar(data).then((avatar) => {
+            setCurrentUser(avatar);
+            setisEditAvatarPopupOpen(false);
+        }).catch(err => {
+            console.log(err);
+        });
+    }
 
     return (
         < CurrentUserContext.Provider value={currentUser}>
-        <div className="App">
-            <div className="page">
-                <Header />
-                <Main
-                    onEditProfile={handleEditProfileClick}
-                    onAddPlace={handleAddPlaceClick}
-                    onEditAvatar={handleEditAvatarClick}
-                    onCardClick={handleCardClick}
-                />
+            <div className="App">
+                <div className="page">
+                    <Header />
+                    <Main
+                        onEditProfile={handleEditProfileClick}
+                        onAddPlace={handleAddPlaceClick}
+                        onEditAvatar={handleEditAvatarClick}
+                        onCardClick={handleCardClick}
+                    />
 
-                <Footer />
+                    <Footer />
 
-                <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} />
-                
-                <PopupWithForm name='add' title='Новое место' isOpen={isAddPlacePopupOpen} onClose={closeAllPopups}>
-                    <input type="text" name="name" className="modal__item modal__item_type_header-image" placeholder="Название" id="name" />
-                    <span className="modal__error modal__error_visible" id="name-error"></span>
-                    <input type="url" name="link" className="modal__item modal__item_type_url-image" placeholder="Ссылка на картинку" id="url" />
-                    <span className="modal__error modal__error_visible" id="url-error"></span>
-                    <button type="submit" className="modal__save-button" disabled><span className="modal__name-button">Создать</span></button>
-                </PopupWithForm>
-                <PopupWithForm name='avatar' title='Обновить аватар' isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups}>
-                    <input type="url" name="link" className="modal__item modal__item_type_url-image" placeholder="Ссылка на картинку" id="url" />
-                    <span className="modal__error modal__error_visible" id="url-error"></span>
-                    <button type="submit" className="modal__save-button"><span className="modal__name-button">Сохранить</span></button>
-                </PopupWithForm>
-                <ImagePopup {...selectedCard} onClose={closeAllPopups} />
+                    <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} />
+                    <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups}  onUpdateAvatar = {handleUpdateAvatar}/>
+
+                    <PopupWithForm name='add' title='Новое место' isOpen={isAddPlacePopupOpen} onClose={closeAllPopups}>
+                        <input type="text" name="name" className="modal__item modal__item_type_header-image" placeholder="Название" id="name" />
+                        <span className="modal__error modal__error_visible" id="name-error"></span>
+                        <input type="url" name="link" className="modal__item modal__item_type_url-image" placeholder="Ссылка на картинку" id="url" />
+                        <span className="modal__error modal__error_visible" id="url-error"></span>
+                        <button type="submit" className="modal__save-button" disabled><span className="modal__name-button">Создать</span></button>
+                    </PopupWithForm>
+                    <ImagePopup {...selectedCard} onClose={closeAllPopups} />
+                </div>
             </div>
-        </div>
         </ CurrentUserContext.Provider >
     );
 }
