@@ -16,23 +16,16 @@ function App() {
     const [selectedCard, setSelectedCard] = React.useState({});
     const [currentUser, setCurrentUser] = React.useState({});
     const [cards, setCards] = React.useState([]);
-    const userData = React.useContext(CurrentUserContext);
 
     React.useEffect(() => {
-        api.getUserInfo().then((dataUser) => {
+        Promise.all([api.getUserInfo(), api.getInitialCards()]).then(([dataUser, dataCards]) => {
             setCurrentUser(dataUser);
-        }).catch(err => {
-            console.log(err);
-        });
-    }, []);
-
-    React.useEffect(() => {
-        api.getInitialCards().then((dataCards) => {
             setCards(dataCards);
         }).catch(err => {
             console.log(err);
         });
     }, []);
+
 
     function handleEditAvatarClick() {
         setisEditAvatarPopupOpen(true);
@@ -70,11 +63,11 @@ function App() {
     }
 
     function handleCardLike(card) {
-        const isLiked = card.likes.some(i => i._id === userData._id);
-    
+        const isLiked = card.likes.some((i) =>  i._id === currentUser._id);
+
         api.changeLike(card._id, !isLiked).then((newCard) => {
-          const newCards = cards.map((c) => c._id === card._id ? newCard : c);
-          setCards(newCards);
+            const newCards = cards.map((c) => c._id === card._id ? newCard : c);
+            setCards(newCards);
         }).catch(err => {
             console.log(err);
         });
@@ -82,14 +75,14 @@ function App() {
 
     function handleCardDelete(card) {
         api.deleteCard(card._id).then(() => {
-            const newCards = cards.filter((c) => !(c._id === card._id ));
+            const newCards = cards.filter((c) => !(c._id === card._id ));            
             setCards(newCards);
         }).catch(err => {
             console.log(err);
         });
     }
 
-    
+
     return (
         < CurrentUserContext.Provider value={currentUser}>
             <div className="App">
@@ -101,14 +94,14 @@ function App() {
                         onEditAvatar={handleEditAvatarClick}
                         onCardClick={handleCardClick}
                         onCardDelete={handleCardDelete}
-                        onCardLike = {handleCardLike}
-                        cards = {cards}
+                        onCardLike={handleCardLike}
+                        cards={cards}
                     />
 
                     <Footer />
 
                     <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} />
-                    <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups}  onUpdateAvatar = {handleUpdateAvatar}/>
+                    <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar} />
 
                     <PopupWithForm name='add' title='Новое место' isOpen={isAddPlacePopupOpen} onClose={closeAllPopups}>
                         <input type="text" name="name" className="modal__item modal__item_type_header-image" placeholder="Название" id="name" />
