@@ -14,7 +14,7 @@ function App() {
     const [isAddPlacePopupOpen, setisAddPlacePopupOpen] = React.useState(false);
     const [isEditAvatarPopupOpen, setisEditAvatarPopupOpen] = React.useState(false);
     const [selectedCard, setSelectedCard] = React.useState({});
-    const [currentUser, setCurrentUser] = React.useState({});
+    const [currentUser, setCurrentUser] = React.useState({about: '',avatar: '', cohort: '',name: '', _id: ''});
     const [cards, setCards] = React.useState([]);
 
     React.useEffect(() => {
