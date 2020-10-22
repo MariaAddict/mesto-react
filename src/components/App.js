@@ -2,12 +2,12 @@ import React from 'react';
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
-import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
 import api from '../utils/api';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
+import AddPlacePopup from './AddPlacePopup';
 
 function App() {
     const [isEditProfilePopupOpen, setisEditProfilePopupOpen] = React.useState(false);
@@ -82,6 +82,15 @@ function App() {
         });
     }
 
+    function handleAddPlaceSubmit(card) {
+        api.addCard(card).then((newCard) => {
+            setCards([newCard, ...cards ]); 
+            setisAddPlacePopupOpen(false);
+        }).catch(err => {
+            console.log(err);
+        });
+    }
+
 
     return (
         < CurrentUserContext.Provider value={currentUser}>
@@ -102,14 +111,7 @@ function App() {
 
                     <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} />
                     <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar} />
-
-                    <PopupWithForm name='add' title='Новое место' isOpen={isAddPlacePopupOpen} onClose={closeAllPopups}>
-                        <input type="text" name="name" className="modal__item modal__item_type_header-image" placeholder="Название" id="name" />
-                        <span className="modal__error modal__error_visible" id="name-error"></span>
-                        <input type="url" name="link" className="modal__item modal__item_type_url-image" placeholder="Ссылка на картинку" id="url" />
-                        <span className="modal__error modal__error_visible" id="url-error"></span>
-                        <button type="submit" className="modal__save-button" disabled><span className="modal__name-button">Создать</span></button>
-                    </PopupWithForm>
+                    <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} onAddPlace={handleAddPlaceSubmit} />
                     <ImagePopup {...selectedCard} onClose={closeAllPopups} />
                 </div>
             </div>
