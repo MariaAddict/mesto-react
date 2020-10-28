@@ -36,7 +36,7 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
 }
 
 AddPlacePopup.propTypes = {
-    isOpen: PropTypes.func.isRequired,
+    isOpen: PropTypes.bool,
     onClose: PropTypes.func.isRequired,
     onAddPlace: PropTypes.func.isRequired
 }
