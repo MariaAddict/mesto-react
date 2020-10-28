@@ -1,3 +1,10 @@
+const handleResponse = res => {
+    if (res.ok) {
+        return res.json();
+    }
+    return Promise.reject(res.status);
+}
+
 class Api {
     constructor(url, { headers }) {
         this._url = url;
@@ -9,12 +16,7 @@ class Api {
             method: 'GET',
             headers: this._headers
         })
-            .then(res => {
-                if (res.ok) {
-                    return res.json();
-                }
-                return Promise.reject(res.status);
-            })
+            .then(handleResponse)
     }
 
     addCard(card) {
@@ -25,36 +27,21 @@ class Api {
                 name: card.name,
                 link: card.link
             })
-        }).then(res => {
-            if (res.ok) {
-                return res.json();
-            }
-            return Promise.reject(res.status);
-        })
+        }).then(handleResponse)
     }
 
     deleteCard(id) {
         return fetch(`${this._url}cards/${id}`, {
             method: 'DELETE',
             headers: this._headers
-        }).then(res => {
-            if (res.ok) {
-                return res.json();
-            }
-            return Promise.reject(res.status);
-        });
+        }).then(handleResponse)
     }
 
     getUserInfo() {
         return fetch(`${this._url}users/me`, {
             method: 'GET',
             headers: this._headers
-        }).then(res => {
-            if (res.ok) {
-                return res.json();
-            }
-            return Promise.reject(res.status);
-        })
+        }).then(handleResponse)
     }
 
     editUserInfo(userInfo) {
@@ -65,12 +52,7 @@ class Api {
                 name: userInfo.name,
                 about: userInfo.about
             })
-        }).then(res => {
-            if (res.ok) {
-                return res.json();
-            }
-            return Promise.reject(res.status);
-        });
+        }).then(handleResponse)
     }
 
     changeLike(cardId, like) {
@@ -78,12 +60,7 @@ class Api {
             method: like ? 'PUT' : 'DELETE',
             headers: this._headers
         }
-        ).then(res => {
-            if (res.ok) {
-                return res.json();
-            }
-            return Promise.reject(res.status);
-        });
+        ).then(handleResponse)
     }
 
     changeAvatar(input) {
@@ -94,12 +71,7 @@ class Api {
                 avatar: input.avatar
             })
         }
-        ).then(res => {
-            if (res.ok) {
-                return res.json();
-            }
-            return Promise.reject(res.status);
-        });
+        ).then(handleResponse)
     }
 
     getAppInfo() {
